@@ -197,7 +197,7 @@ class cetak_hak_kewajiban extends OPPController {
 
 		$html .='<div class="h_tengah"><strong>HAK DAN KEWAJIBAN </strong> <br> Ref. '.date('Ymd_His').'</div>
 
-		<table width="100%">
+		<table width="100%" cellspacing="0" cellpadding="3" border="1">
 			<tr>
 				<td colspan="3"><span style="font-size: 12px;"> Identitas Anggota</span> </td>
 			</tr>        
