@@ -233,7 +233,7 @@ class cetak_pengajuan_1 extends OPPController {
 				<td colspan="3"><br><br> <span style="font-size: 12px;">Kemampuan Mengangsur Setiap Bulan</span> </td>
 			</tr>
 			<tr>
-				<td> Total Pendapatan </td>
+				<td>Total Pendapatan </td>
 				<td>:</td>
 				<td>Rp 1000000</td>
 			</tr>
@@ -253,7 +253,7 @@ class cetak_pengajuan_1 extends OPPController {
 				<td colspan="3"><br><br> <span style="font-size: 12px;">Maksimum Pinjaman Yang Dapat Diberikan</span> </td>
 			</tr>
 			<tr>
-				<td> Jangka Waktu </td>
+				<td>Jangka Waktu </td>
 				<td>:</td>
 				<td></td>
 			</tr>

@@ -9,6 +9,8 @@ class cetak_hak_kewajiban extends OPPController {
 		$this->load->model('general_m');
 		$this->load->model('pinjaman_m');
 		$this->load->model('setting_m');
+		$this->load->model('lap_kas_anggota_m');
+		$this->load->model('simpanan_m');
         // angka
 		$this->load->library('terbilang');
 	}
@@ -151,6 +153,7 @@ class cetak_hak_kewajiban extends OPPController {
 
 	function cetak($id) {
 		$row = $this->pinjaman_m->get_data_pengajuan($id);
+		
 
 		$opsi_val_arr = $this->setting_m->get_key_val();
 		foreach ($opsi_val_arr as $key => $value){
@@ -187,6 +190,9 @@ class cetak_hak_kewajiban extends OPPController {
 				', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'left').'';
 
 		$anggota= $this->general_m->get_data_anggota($row->anggota_id);
+		
+
+		
 
 		$tgl_input = explode(' ', $row->tgl_input);
 		$txt_tanggal = jin_date_ina($tgl_input[0]);
@@ -198,115 +204,122 @@ class cetak_hak_kewajiban extends OPPController {
 		
 		$html .='<div class="h_tengah"><strong>HAK DAN KEWAJIBAN </strong> <br> Ref. '.date('Ymd_His').'</div>
 
-		<table width="100%" cellspacing="0" cellpadding="3" border="1">
+		<table width="100%" cellspacing="0" cellpadding="1" border="1">
+		<tr>
+		<th colspan="2"><span style="font-size: 12px;"><strong>Identitas Anggota </strong></span> </th>
+		</tr>
 			<tr>
-				<td colspan="2"><br><br> <span style="font-size: 12px;">Identitas Anggota</span> </td>
-			</tr>
-			<tr>
-				<td>nomor kontrak</td>
-			
-				<td width="45%">'.'TPP'.sprintf('%05d', $row->id).'</td>
-			</tr>
-			<tr>
-				<td>id anggota</td>
-			
-				<td>'.$row->identitas.'</td>
-			</tr>
-			<tr>
-				<td>nama anggota</td>
+				<td> nomor kontrak </td>
 		
-				<td>'.strtoupper($anggota->nama).'</td>
-			</tr>
-			<tr>
-				<td>alamat</td>
+				<td>'.'TPJ'.sprintf('%05d', $row->id).'</td>
 			
-				<td>'.($row->departement).'</td>
 			</tr>
 			<tr>
-				<td>nama anggota</td>
+				<td> id anggota </td>
+	
+				<td>'.$row->identitas.'</td>
 
-				<td>'.$anggota->alamat.'</td>
 			</tr>
- 			</table>
+			<tr>
+				<td> anggota </td>
+
+				<td>'.$anggota->nama.'</td>
+				
+			</tr>
+
+			<tr>
+				<td> departement </td>
+	
+				<td>'.$row->departement.'</td>
+			
+			</tr>
+			<tr>
+				<td> alamat </td>
+				
+				<td>'.$anggota->alamat.'</td>
+				
+			</tr>
+			
+			</table>
 			 
 			<br>
 		<table width="100%" cellspacing="0" cellpadding="1" border="1">
 		<tr>
-		<th colspan="2"><span style="font-size: 12px;">Simpanan</span> </th>
+		<th colspan="2"><span style="font-size: 12px;"><strong>Simpanan</strong></span> </th>
 		</tr>
 			<tr>
-				<td> norek simpanan </td>
+				<td> kode transaksi </td>
 		
-				<td>1233456</td>
+				<td>'.'TPJ'.sprintf('%05d', $row->id).'</td>
 			
 			</tr>
 			<tr>
 				<td> pokok </td>
 	
-				<td>1090900</td>
+				<td>'.number_format($row->nominal).'</td>
 
 			</tr>
 			<tr>
 				<td> wajib </td>
 
-				<td>100000</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> sukarela </td>
 	
-				<td>100000</td>
+				<td></td>
 			
 			</tr>
 			<tr>
 				<td> sskb </td>
 				
-				<td>100000</td>
+				<td></td>
 				
 			</tr>
 			<tr>
 				<td> swk </td>
 				
-				<td>100000</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> jasa sskb </td>
 
-				<td>100000</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> simpanan deviden</td>
 	
-				<td>100000</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> kas sukarela</td>
 		
-				<td>100000</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> total simpanan </td>
 			
-				<td>100000</td>
+				<td></td>
 				
 			</tr>
 			</table>
-			<br>
+			
 			<table width="100%" cellspacing="0" cellpadding="1" border="1">
         	<tr>
-				<th colspan="7"><br><br> <span style="font-size: 12px;">Pinjaman</span> </th>
+				<th colspan="7"><br><br> <span style="font-size: 12px;"><strong>Pinjaman</strong></span> </th>
 			</tr>
 			<tr>
-				<th> Nomor Pinjaman </th>
+				<th> Kode Transaksi </th>
 				<th> Jenis Pinjaman </th>
                 <th> Plafond </th>
                 <th> Tenor </th>
@@ -315,76 +328,76 @@ class cetak_hak_kewajiban extends OPPController {
                 <th> Sisa Jasa </th>
 			</tr>
 			<tr>
-				<td> Tanggal Tempo </td>
-				<td>:</td>
+				<td> '.'TPR'.sprintf('%05d', $row->id).'</td>
+				<td> '.$row->jenis.'</td>
 				<td></td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+                <td></td>
+				<td>'.$row->lama_ags.'</td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td> Lama Pinjam </td>
-				<td>:</td>
-				<td>1Bulan</td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+                <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td> Total Pinjam </td>
-				<td>:</td>
-				<td>1Bulan</td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+                <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td> Pokok Pinjam </td>
-				<td>:</td>
-				<td>1Bulan</td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+                <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td> Angsuran Pinjam </td>
-				<td>:</td>
-				<td>1Bulan</td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+                <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td> Biaya Admin </td>
-				<td>:</td>
-				<td>1Bulan</td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+                <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td> Angsuran Bunga </td>
-				<td>:</td>
-				<td>1Bulan</td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+                <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td> Jumlah Angsuran </td>
-				<td>:</td>
-				<td>1Bulan</td>
-                <td>1</td>
-				<td>1</td>
-				<td>1</td>
-				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+                <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
         </table>
 		<br><br>
