@@ -154,6 +154,8 @@ class cetak_hak_kewajiban extends OPPController {
 	function cetak($id) {
 		$row = $this->pinjaman_m->get_data_pengajuan($id);
 		
+		$anggota = $this->lap_kas_anggota_m->lap_data_anggota();
+		$data_jns_simpanan = $this->lap_kas_anggota_m->get_jenis_simpan();
 
 		$opsi_val_arr = $this->setting_m->get_key_val();
 		foreach ($opsi_val_arr as $key => $value){
@@ -253,66 +255,63 @@ class cetak_hak_kewajiban extends OPPController {
 				<td>'.'TPJ'.sprintf('%05d', $row->id).'</td>
 			
 			</tr>
-			<tr>
-				<td> pokok </td>
-	
-				<td>'.number_format($row->nominal).'</td>
-
-			</tr>
-			<tr>
-				<td> wajib </td>
-
-				<td></td>
-				
-			</tr>
-
-			<tr>
-				<td> sukarela </td>
-	
-				<td></td>
 			
-			</tr>
+			
 			<tr>
 				<td> sskb </td>
 				
-				<td></td>
+				<td>'.number_format($row->nominal).'</td>
 				
 			</tr>
 			<tr>
 				<td> swk </td>
 				
-				<td></td>
+				<td>'.number_format($row->nominal).'</td>
 				
 			</tr>
 
 			<tr>
 				<td> jasa sskb </td>
 
-				<td></td>
+				<td>'.number_format($row->nominal).'</td>
 				
 			</tr>
 
 			<tr>
 				<td> simpanan deviden</td>
 	
-				<td></td>
+				<td>'.number_format($row->nominal).'</td>
 				
 			</tr>
 
 			<tr>
 				<td> kas sukarela</td>
 		
-				<td></td>
+				<td>'.number_format($row->nominal).'</td>
 				
 			</tr>
 
-			<tr>
-				<td> total simpanan </td>
-			
-				<td></td>
-				
-			</tr>
 			</table>
+			<table width="100%" border="1">';
+					$simpanan_arr = array();
+					$simpanan_row_total = 0; 
+					foreach ($data_jns_simpanan as $jenis) {
+						$simpanan_arr[$jenis->id] = $jenis->jns_simpan;
+						$nilai_s = $this->lap_kas_anggota_m->get_jml_simpanan($jenis->id, $row->id);
+						$nilai_p = $this->lap_kas_anggota_m->get_jml_penarikan($jenis->id, $row->id);	
+						$simpanan_row=$nilai_s->jml_total - $nilai_p->jml_total;
+						$simpanan_row_total += $simpanan_row;
+		$html.=' <tr>
+						<td> '.$jenis->jns_simpan.'</td>
+						<td class="h_kiri"> '. number_format($simpanan_row).'</td>
+					</tr>';
+					}
+		$html.='<tr>
+						<td> <strong>Total Simpanan</strong></td>
+						<td class="h_kanan"><strong> '.number_format($simpanan_row_total).'</strong></td>
+					</tr>
+					</table>
+		
 			
 			<table width="100%" cellspacing="0" cellpadding="1" border="1">
         	<tr>
@@ -327,78 +326,8 @@ class cetak_hak_kewajiban extends OPPController {
                 <th> Sisa Poko </th>
                 <th> Sisa Jasa </th>
 			</tr>
-			<tr>
-				<td> '.'TPR'.sprintf('%05d', $row->id).'</td>
-				<td> '.$row->jenis.'</td>
-				<td></td>
-                <td></td>
-				<td>'.$row->lama_ags.'</td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-                <td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-                <td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-                <td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-                <td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-                <td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-                <td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-                <td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
+			
+
         </table>
 		<br><br>
 		
