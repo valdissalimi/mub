@@ -154,6 +154,18 @@ class cetak_hak_kewajiban extends OPPController {
 	function cetak($id) {
 		$row = $this->pinjaman_m->get_data_pengajuan($id);
 		
+		$data_pinjam = $this->pinjaman_m->lap_data_pinjaman();
+
+		// $tgl_dari = $_REQUEST['tgl_dari']; 
+		// $tgl_sampai = $_REQUEST['tgl_sampai']; 
+		// $cari_status = $_REQUEST['cari_status']; 
+
+		// if ($cari_status == "") {
+		// 	$status = "Status Pelunasan : Semua";
+		// } else {
+		// 	$status = "Status Pelunasan :". $cari_status ;
+		// }
+
 		$anggota = $this->lap_kas_anggota_m->lap_data_anggota();
 		$data_jns_simpanan = $this->lap_kas_anggota_m->get_jenis_simpan();
 
@@ -193,6 +205,44 @@ class cetak_hak_kewajiban extends OPPController {
 
 		$anggota= $this->general_m->get_data_anggota($row->anggota_id);
 		
+		// $batas++;
+
+		// 	$barang = $this->pinjaman_m->get_data_barang($r->barang_id);   
+		// 	$anggota = $this->general_m->get_data_anggota($r->anggota_id);   
+		// 	$jml_bayar = $this->general_m->get_jml_bayar($r->id); 
+		// 	$jml_denda = $this->general_m->get_jml_denda($r->id); 
+		// 	$jml_tagihan = $r->tagihan + $jml_denda->total_denda;
+		// 	$sisa_tagihan = $jml_tagihan - $jml_bayar->total;
+
+
+		// 	//total pinjaman
+		// 	$total_pinjaman += @$r->jumlah;
+		// 	//total tagihan
+		// 	$total_tagihan += $jml_tagihan;
+		// 	//total dibayar
+		// 	$tot_sdh_dibayar += $jml_bayar->total;
+		// 	//sisa tagihan
+		// 	$tot_sisa_tagihan += $sisa_tagihan;
+
+		// 	//jabatan
+		// 	if ($anggota->jabatan_id == "1"){
+		// 		$jabatan = "Pengurus";
+		// 	} else {
+		// 		$jabatan = "Anggota";
+		// 	}
+
+		// 	//jk
+		// 	if ($anggota->jk == "L"){
+		// 		$jk = "Laki-laki";
+		// 	} else {
+		// 		$jk = "Perempuan";
+		// 	}
+
+		// 	$tgl_pinjam = explode(' ', $r->tgl_pinjam);
+		// 	$txt_tanggal = jin_date_ina($tgl_pinjam[0],'full');
+
+		// 	$tgl_tempo = explode(' ', $r->tempo);
+		// 	$txt_tempo = jin_date_ina($tgl_tempo[0],'full');
 
 		
 
