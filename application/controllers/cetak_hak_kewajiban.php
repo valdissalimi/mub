@@ -11,6 +11,7 @@ class cetak_hak_kewajiban extends OPPController {
 		$this->load->model('setting_m');
 		$this->load->model('lap_kas_anggota_m');
 		$this->load->model('simpanan_m');
+		$this->load->model('angsuran_m');
         // angka
 		$this->load->library('terbilang');
 	}
@@ -244,7 +245,44 @@ class cetak_hak_kewajiban extends OPPController {
 		// 	$tgl_tempo = explode(' ', $r->tempo);
 		// 	$txt_tempo = jin_date_ina($tgl_tempo[0],'full');
 
+			$anggota = $this->general_m->get_data_anggota($row->anggota_id);
+			$angsuran = $this->angsuran_m->get_data_angsuran($row->id);
+
+			$hitung_denda = $this->general_m->get_jml_denda($row->id);
+			$hitung_dibayar = $this->general_m->get_jml_bayar($row->id);
+			$sisa_ags = $this->general_m->get_record_bayar($row->id);
+			$angsuran = $this->angsuran_m->get_data_angsuran($row->id);
+
+		// $offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
+		// $limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+		// $sort  = isset($_POST['sort']) ? $_POST['sort'] : 'tgl_pinjam';
+		// $order  = isset($_POST['order']) ? $_POST['order'] : 'desc';
+		// $kode_transaksi = isset($_POST['kode_transaksi']) ? $_POST['kode_transaksi'] : '';
+		// $cari_status = isset($_POST['cari_status']) ? $_POST['cari_status'] : '';
+		// $cari_nama = isset($_POST['cari_nama']) ? $_POST['cari_nama'] : '';
+		// $tgl_dari = isset($_POST['tgl_dari']) ? $_POST['tgl_dari'] : '';
+		// $tgl_sampai = isset($_POST['tgl_sampai']) ? $_POST['tgl_sampai'] : '';
+		// $search = array('kode_transaksi' => $kode_transaksi, 
+		// 	'cari_status' => $cari_status,
+		// 	'cari_nama' => $cari_nama,
+		// 	'tgl_dari' => $tgl_dari, 
+		// 	'tgl_sampai' => $tgl_sampai);
+		// $offset = ($offset-1)*$limit;
+		// $data   = $this->pinjaman_m->get_data_transaksi_ajax($offset,$limit,$search,$sort,$order);
+		// $i	= 0;
+
+			// $tgl_bayar = explode(' ', $row->tgl_pinjam);
+			// $txt_tanggal = jin_date_ina($tgl_bayar[0]);   
+
+			// $tgl_tempo = explode(' ', $row->tempo);
+			// $tgl_tempo = jin_date_ina($tgl_tempo[0]); 
+
+		foreach
+			
+
 		
+		$data_pinjam  = $this->pinjaman_m->get_data_pinjam($id);
+		$rr = $this->general_m->get_data_anggota($id);
 
 		$tgl_input = explode(' ', $row->tgl_input);
 		$txt_tanggal = jin_date_ina($tgl_input[0]);
@@ -263,7 +301,7 @@ class cetak_hak_kewajiban extends OPPController {
 			<tr>
 				<td> nomor kontrak </td>
 		
-				<td>'.'TPJ'.sprintf('%05d', $row->id).'</td>
+				<td>'.'SP'.sprintf('%05d', $row->id).'</td>
 			
 			</tr>
 			<tr>
@@ -302,7 +340,7 @@ class cetak_hak_kewajiban extends OPPController {
 			<tr>
 				<td> kode transaksi </td>
 		
-				<td>'.'TPJ'.sprintf('%05d', $row->id).'</td>
+				<td>'.'TSP'.sprintf('%05d', $row->id).'</td>
 			
 			</tr>
 			
@@ -310,34 +348,34 @@ class cetak_hak_kewajiban extends OPPController {
 			<tr>
 				<td> sskb </td>
 				
-				<td>'.number_format($row->nominal).'</td>
+				<td></td>
 				
 			</tr>
 			<tr>
 				<td> swk </td>
 				
-				<td>'.number_format($row->nominal).'</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> jasa sskb </td>
 
-				<td>'.number_format($row->nominal).'</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> simpanan deviden</td>
 	
-				<td>'.number_format($row->nominal).'</td>
+				<td></td>
 				
 			</tr>
 
 			<tr>
 				<td> kas sukarela</td>
 		
-				<td>'.number_format($row->nominal).'</td>
+				<td></td>
 				
 			</tr>
 
@@ -358,26 +396,33 @@ class cetak_hak_kewajiban extends OPPController {
 					}
 		$html.='<tr>
 						<td> <strong>Total Simpanan</strong></td>
-						<td class="h_kanan"><strong> '.number_format($simpanan_row_total).'</strong></td>
+						<td class="h_kiri"><strong> '.number_format($simpanan_row_total).'</strong></td>
 					</tr>
 					</table>
 		
 			
 			<table width="100%" cellspacing="0" cellpadding="1" border="1">
-        	<tr>
+			<tr>
 				<th colspan="7"><br><br> <span style="font-size: 12px;"><strong>Pinjaman</strong></span> </th>
 			</tr>
 			<tr>
-				<th> Kode Transaksi </th>
+				<th> Kode Pinjam </th>
 				<th> Jenis Pinjaman </th>
-                <th> Plafond </th>
-                <th> Tenor </th>
-                <th> Cicilan Ke- </th>
+                <th> Poko pinjam </th>
+                <th> Cicilan </th>
+                <th> Angsuran Ke- </th>
                 <th> Sisa Poko </th>
                 <th> Sisa Jasa </th>
 			</tr>
-			
-
+			<tr>
+				<td>'.'TPJ'.sprintf('%05d', $row->id).'</td>
+				<td>'.$row->jenis.'</td>
+				<td>'.$row->nominal.'</td>
+				<td>'.$row->lama_ags.'</td>
+				<td>'.$row->lama_ags.'</td>
+				<td></td>
+				<td></td>
+			</tr>
         </table>
 		<br><br>
 		
@@ -393,6 +438,15 @@ class cetak_hak_kewajiban extends OPPController {
 				<td class="h_tengah">'.strtoupper($anggota->nama).'</td>
 			</tr>
 		</table>';
+
+
+		
+
+
+		
+
+
+		
 		$pdf->nsi_html($html);
 		$pdf->Output(date('Ymd_His') . '.pdf', 'I');
 	} 

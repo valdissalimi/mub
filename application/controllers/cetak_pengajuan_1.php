@@ -332,7 +332,7 @@ class cetak_pengajuan_1 extends OPPController {
 			</tr>
 
 			<tr>
-				<td>gl. Lahir 0000-00-00</td>
+				<td>Tgl. Lahir 0000-00-00</td>
 				<td>:</td>
 				<td></td>
 			</tr>
